@@ -1,0 +1,14 @@
+ul#taskList .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ul#taskList .list-group-item.completed span {
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+ul#taskList .list-group-item span {
+    cursor: pointer;
+}

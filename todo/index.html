@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todoリスト</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">Todoリスト</h1>
+        <div class="card">
+            <div class="card-body">
+                <div class="input-group mb-3">
+                    <input type="text" id="taskInput" class="form-control" placeholder="新しいタスクを入力">
+                    <div class="input-group-append">
+                        <button id="addButton" class="btn btn-primary">追加</button>
+                    </div>
+                </div>
+                <ul id="taskList" class="list-group"></ul>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="../index.html">メインページに戻る</a>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
