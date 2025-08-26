@@ -4,11 +4,30 @@ ul#taskList .list-group-item {
     align-items: center;
 }
 
-ul#taskList .list-group-item.completed span {
+ul#taskList .list-group-item.completed .task-text {
     text-decoration: line-through;
     color: #6c757d;
 }
 
-ul#taskList .list-group-item span {
+ul#taskList .list-group-item .task-text {
     cursor: pointer;
+}
+
+.task-details {
+    flex-grow: 1;
+}
+
+.due-date {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-left: 10px;
+}
+
+.due-date.overdue {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+#dueDateInput {
+    max-width: 180px; /* 日付入力欄の幅を調整 */
 }
