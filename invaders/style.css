@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+:root {
+    --neon-cyan: #00ffff;
+    --neon-magenta: #ff00ff;
+    --neon-lime: #00ff00;
+    --background-color: #000;
+    --text-color: #fff;
+    --glow-color-cyan: rgba(0, 255, 255, 0.8);
+    --glow-color-magenta: rgba(255, 0, 255, 0.8);
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+    border: 2px solid var(--neon-cyan);
+    box-shadow: 0 0 20px var(--glow-color-cyan);
+}
+
+canvas {
+    display: block;
+    background-color: var(--background-color);
+}
+
+#ui-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* UI要素がゲームのクリックを妨げないように */
+}
+
+.score-container {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 1.2rem;
+}
+
+.score-container span {
+    font-size: 0.8rem;
+    color: var(--neon-cyan);
+}
+
+.start-screen, .game-over-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    text-align: center;
+    pointer-events: all; /* ボタンを押せるように */
+}
+
+.start-screen h1, .game-over-screen h1 {
+    font-size: 4rem;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 15px var(--glow-color-cyan);
+    margin-bottom: 1rem;
+}
+
+.start-screen p, .game-over-screen p {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+}
+
+button {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    padding: 10px 30px;
+    background-color: transparent;
+    color: var(--neon-magenta);
+    border: 2px solid var(--neon-magenta);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px var(--glow-color-magenta);
+}
+
+button:hover {
+    background-color: var(--neon-magenta);
+    color: var(--background-color);
+    box-shadow: 0 0 30px var(--glow-color-magenta);
+}
+
+.hidden {
+    display: none;
+}
+
+.back-link {
+    margin-top: 20px;
+}
+
+.back-link a {
+    color: var(--neon-cyan);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.back-link a:hover {
+    text-shadow: 0 0 10px var(--glow-color-cyan);
+}
