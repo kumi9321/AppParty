@@ -3,10 +3,13 @@ const ctx = canvas.getContext('2d');
 
 const scoreEl = document.getElementById('scoreEl');
 const finalScoreEl = document.getElementById('finalScoreEl');
+const clearScoreEl = document.getElementById('clearScoreEl');
 const startButton = document.getElementById('startButton');
 const restartButton = document.getElementById('restartButton');
+const playAgainButton = document.getElementById('playAgainButton');
 const startScreen = document.querySelector('.start-screen');
 const gameOverScreen = document.querySelector('.game-over-screen');
+const gameClearScreen = document.querySelector('.game-clear-screen');
 
 canvas.width = 1024;
 canvas.height = 576;
@@ -164,8 +167,16 @@ function endGame() {
     setTimeout(() => {
         player.opacity = 0;
         gameOverScreen.classList.remove('hidden');
-    }, 500); // Delay to show player explosion
+    }, 500);
     createParticles(player, player.color);
+}
+
+function gameClear() {
+    game.active = false;
+    clearScoreEl.innerText = game.score;
+    setTimeout(() => {
+        gameClearScreen.classList.remove('hidden');
+    }, 500);
 }
 
 function animate() {
@@ -205,7 +216,7 @@ function animate() {
         }
     });
 
-    grids.forEach((grid) => {
+    grids.forEach((grid, gridIndex) => {
         grid.update();
         if (frames % 100 === 0 && grid.invaders.length > 0) {
             const randomInvader = grid.invaders[Math.floor(Math.random() * grid.invaders.length)];
@@ -220,10 +231,17 @@ function animate() {
                         const invaderFound = grid.invaders.find(inv => inv === invader);
                         if (invaderFound) {
                             createParticles(invader, invader.color);
-                            grid.invaders.splice(i, 1);
-                            projectiles.splice(j, 1);
                             game.score += 100;
                             scoreEl.innerText = game.score;
+                            grid.invaders.splice(i, 1);
+                            projectiles.splice(j, 1);
+
+                            if (grid.invaders.length === 0) {
+                                grids.splice(gridIndex, 1);
+                                if (grids.length === 0) {
+                                    gameClear();
+                                }
+                            }
                         }
                     }, 0);
                 }
@@ -243,6 +261,7 @@ function startGame() {
     game.active = true;
     startScreen.classList.add('hidden');
     gameOverScreen.classList.add('hidden');
+    gameClearScreen.classList.add('hidden');
 }
 
 window.addEventListener('keydown', ({ key }) => {
@@ -251,7 +270,7 @@ window.addEventListener('keydown', ({ key }) => {
         case 'a': case 'arrowleft': keys.a.pressed = true; break;
         case 'd': case 'arrowright': keys.d.pressed = true; break;
         case ' ': // Spacebar
-            if (!keys.space.pressed) { // Fire only once when key is first pressed
+            if (!keys.space.pressed) {
                 projectiles.push(new Projectile({ 
                     position: { x: player.position.x + player.width / 2 - 2.5, y: player.position.y }, 
                     velocity: { x: 0, y: -10 } 
@@ -272,6 +291,7 @@ window.addEventListener('keyup', ({ key }) => {
 
 startButton.addEventListener('click', startGame);
 restartButton.addEventListener('click', startGame);
+playAgainButton.addEventListener('click', startGame);
 
 init();
 animate();

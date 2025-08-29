@@ -55,7 +55,7 @@ canvas {
     color: var(--neon-cyan);
 }
 
-.start-screen, .game-over-screen {
+.start-screen, .game-over-screen, .game-clear-screen {
     position: absolute;
     top: 0;
     left: 0;
@@ -70,17 +70,22 @@ canvas {
     pointer-events: all; /* ボタンを押せるように */
 }
 
-.start-screen h1, .game-over-screen h1 {
+.start-screen h1, .game-over-screen h1, .game-clear-screen h1 {
     font-size: 4rem;
     color: var(--neon-cyan);
     text-shadow: 0 0 15px var(--glow-color-cyan);
     margin-bottom: 1rem;
 }
 
-.start-screen p, .game-over-screen p {
+.start-screen p, .game-over-screen p, .game-clear-screen p {
     font-size: 1.2rem;
     color: var(--text-color);
     margin-bottom: 2rem;
+}
+
+.game-over-screen h1 {
+    color: var(--neon-magenta);
+    text-shadow: 0 0 15px var(--glow-color-magenta);
 }
 
 button {
@@ -99,6 +104,18 @@ button:hover {
     background-color: var(--neon-magenta);
     color: var(--background-color);
     box-shadow: 0 0 30px var(--glow-color-magenta);
+}
+
+#playAgainButton {
+    color: var(--neon-cyan);
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 15px var(--glow-color-cyan);
+}
+
+#playAgainButton:hover {
+    background-color: var(--neon-cyan);
+    color: var(--background-color);
+    box-shadow: 0 0 30px var(--glow-color-cyan);
 }
 
 .hidden {
