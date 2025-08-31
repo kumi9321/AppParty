@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const textInput = document.getElementById('textInput');
     const categoryList = document.getElementById('categoryList');
     const postGrid = document.getElementById('postGrid');
+    const postModalLabel = document.getElementById('postModalLabel');
+    const postModalBody = document.getElementById('postModalBody');
 
     const CATEGORIES = {
         'グルメ': ['#グルメ', '#カフェ', '#レストラン', '#レシピ', '#料理', '#スイーツ'],
@@ -21,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 1つの投稿として処理
         const newPost = { id: Date.now(), text: postText, categories: [] };
         
         for (const [category, keywords] of Object.entries(CATEGORIES)) {
@@ -33,21 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
             newPost.categories.push('その他');
         }
 
-        // 投稿をリストの先頭に追加
         allPosts.unshift(newPost);
-
-        // 表示を更新
-        renderCategories();
+        
+        // 「すべて」カテゴリを選択した状態で再描画
+        renderCategories('すべて');
         renderPosts('すべて');
-
-        // 入力欄をクリア
+        
         textInput.value = '';
     });
 
-    function renderCategories() {
+    function renderCategories(activeCategory = 'すべて') {
         const categories = ['すべて', ...Object.keys(CATEGORIES), 'その他'];
         categoryList.innerHTML = '';
-        let activeCategory = document.querySelector('#categoryList .active')?.textContent || 'すべて';
 
         categories.forEach(category => {
             const count = category === 'すべて'
@@ -77,10 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 categoryList.appendChild(categoryItem);
             }
         });
-
-        if (!document.querySelector('#categoryList .active') && categoryList.firstChild) {
-             categoryList.firstChild.classList.add('active');
-        }
     }
 
     function renderPosts(category) {
@@ -97,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         filteredPosts.forEach(post => {
             const card = document.createElement('div');
             card.className = 'post-card';
+            card.dataset.postId = post.id;
             
             const firstLine = post.text.split('\n')[0].trim();
             const title = firstLine || `投稿 ${post.id}`;
@@ -107,7 +102,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>${post.text.substring(0, 150)}...</p>
                 <small class="text-muted">カテゴリ: ${categoriesText}</small>
             `;
+
+            card.addEventListener('click', () => {
+                showPostInModal(post.id);
+            });
+
             postGrid.appendChild(card);
         });
+    }
+
+    function showPostInModal(postId) {
+        const post = allPosts.find(p => p.id === postId);
+        if (!post) return;
+
+        const title = post.text.split('\n')[0].trim() || `投稿 ${post.id}`;
+        postModalLabel.textContent = title;
+        postModalBody.innerHTML = post.text.replace(/\n/g, '<br>'); // Preserve line breaks
+
+        $('#postModal').modal('show');
     }
 });
