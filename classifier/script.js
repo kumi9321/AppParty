@@ -98,11 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'post-card';
             
-            const hashtags = post.text.match(/#[^\s#]+/g) || [];
+            const firstLine = post.text.split('\n')[0].trim();
+            const title = firstLine || `投稿 ${post.id}`;
             const categoriesText = post.categories.join(', ');
 
             card.innerHTML = `
-                <h5>${hashtags.length > 0 ? hashtags.join(' ') : '投稿' + post.id}</h5>
+                <h5>${title}</h5>
                 <p>${post.text.substring(0, 150)}...</p>
                 <small class="text-muted">カテゴリ: ${categoriesText}</small>
             `;
