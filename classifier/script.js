@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const postModalLabel = document.getElementById('postModalLabel');
     const postModalBody = document.getElementById('postModalBody');
 
+    const STORAGE_KEY = 'classifiedPosts';
     const CATEGORIES = {
         'グルメ': ['#グルメ', '#カフェ', '#レストラン', '#レシピ', '#料理', '#スイーツ'],
         '旅行': ['#旅行', '#観光', '#絶景', '#ホテル', '#温泉', '#海外旅行'],
@@ -17,6 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allPosts = [];
 
+    // --- データ操作 ---
+    function loadPostsFromStorage() {
+        const storedPosts = localStorage.getItem(STORAGE_KEY);
+        allPosts = storedPosts ? JSON.parse(storedPosts) : [];
+    }
+
+    function savePostsToStorage() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(allPosts));
+    }
+
+    // --- イベントリスナー ---
     classifyButton.addEventListener('click', () => {
         const postText = textInput.value.trim();
         if (!postText) {
@@ -36,17 +48,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         allPosts.unshift(newPost);
+        savePostsToStorage();
         
-        // 「すべて」カテゴリを選択した状態で再描画
         renderCategories('すべて');
         renderPosts('すべて');
         
         textInput.value = '';
     });
 
+    // --- 画面描画 ---
     function renderCategories(activeCategory = 'すべて') {
-        const categories = ['すべて', ...Object.keys(CATEGORIES), 'その他'];
         categoryList.innerHTML = '';
+        const categories = ['すべて', ...Object.keys(CATEGORIES), 'その他'];
 
         categories.forEach(category => {
             const count = category === 'すべて'
@@ -118,8 +131,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const title = post.text.split('\n')[0].trim() || `投稿 ${post.id}`;
         postModalLabel.textContent = title;
-        postModalBody.innerHTML = post.text.replace(/\n/g, '<br>'); // Preserve line breaks
+        postModalBody.innerHTML = post.text.replace(/\n/g, '<br>');
 
         $('#postModal').modal('show');
     }
+
+    // --- 初期化処理 ---
+    function initialize() {
+        loadPostsFromStorage();
+        renderCategories();
+        renderPosts('すべて');
+    }
+
+    initialize();
 });
